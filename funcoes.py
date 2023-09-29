@@ -1,5 +1,4 @@
-import os, time, socket, subprocess, threading
-#from sonda_select import sonda_selecionada, selecionar_sonda
+import os, time
 
 def limpartela():
     os.system("cls")
@@ -21,14 +20,14 @@ def file_open(arquivo):
     arquivochave.close()
     return datachave
 
-def file_recente_format(formato): #função para localizar um arquivo com um formato determinado
+def file_recente_format(formato): 
     try:
-        diretorio = os.getcwd() #obtem o diretorio de trabalho
-        archives = os.listdir(diretorio) #lista os arquivos do diretorio
-        archives_format = [archive for archive in archives if archive.endswith(formato)] #filtra os arquivos com o formato desejado
+        diretorio = os.getcwd() 
+        archives = os.listdir(diretorio) 
+        archives_format = [archive for archive in archives if archive.endswith(formato)] 
 
         if archives_format: #verifica se existe arquivos com o formato informado
-            archive_recent = max(archives_format,key= lambda archive: os.path.getctime(os.path.join(diretorio, archive))) #encontra o arquivo mais recente com o formato fornecido
+            archive_recent = max(archives_format,key= lambda archive: os.path.getctime(os.path.join(diretorio, archive))) 
             return os.path.join(diretorio, archive_recent)
         else:
             return print("nenhum arquivo com o formato desejado foi encontrado")
@@ -66,26 +65,25 @@ def formatar_string(string):
 
     return string_formatada
 
-#função para adicionar um Banco de Dados.txt
+
 def adicionar_sonda_bd(sonda):
     with open("Sonda_bd.txt", "r+") as file:
-        #descobrindo proximo numero disponivel
+        
         numeros = [int(line.split(" - ")[0])for line in file]
         proximo_numero = max(numeros, default=0) + 1
 
-        #adicionar a sonda ao arquivo
+
         file.write(f"{proximo_numero} - {sonda} \n")
 
-#função para listar sondas
+
 def listar_sondas():
     with open("Sonda_bd.txt", "r") as file:
         for line in file:
             print(line.strip())
 
-#função para selecionar sondas esta  na sonda_select
+
 
 def selecionar_sonda(numero):
-    #global sonda_selecionada
     with open("Sonda_bd.txt", "r") as file:
         for line in file:
             part = line.strip().split(" - ")
@@ -94,12 +92,9 @@ def selecionar_sonda(numero):
                 
     return None
 
-
-#função menu
 def menu_sondas(sonda):
     
     while True:
-        #limpartela()
         print("\n Escolha um opção:")
         print("1 - Adicionar sonda")
         print("2 - Selecionar sonda")
@@ -120,7 +115,6 @@ def menu_sondas(sonda):
             if numero_sonda == "0":
                 return menu_sondas
             sonda = selecionar_sonda(numero_sonda)
-            #sonda_selecionada[0] = selecionar_sonda(numero_sonda)
             if sonda is not None:
                 print(f"Sonda selecionada: {sonda}")
 
